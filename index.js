@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const connection = mysql.createConnection({
     host: "localhost",
-    port: 8080,
+    port: 3306,
     user: "root",
     password: "Password",
     database: "employee_db"
@@ -20,7 +20,7 @@ function start() {
             type: "list",
             message:
             "Which of the following would you like to navigate to?",
-            choices: ["VIEW_DEPARTMENT", "VIEW_ROLE", "VIEW_EMPLOYEE", "ADD_DEPARTMENT", "ADD_ROLE", "ADD_EMPLOYEE", "UPDATE_EMPLOYEE_ROLE", "DELETE_DEPARTMENT", "DELETE ROLE", "DELETE_EMPLOYEE", "EXIT"],
+            choices: ["VIEW_DEPARTMENT", "VIEW_ROLE", "VIEW_EMPLOYEE", "ADD_DEPARTMENT", "ADD_ROLE", "ADD_EMPLOYEE", "UPDATE_EMPLOYEE_ROLE", "DELETE_DEPARTMENT", "DELETE_ROLE", "DELETE_EMPLOYEE", "EXIT"],
         })
         .then(function (answer) {
             if (answer.userInput === "VIEW_DEPARTMENT") {
@@ -118,7 +118,7 @@ function deleteDepartment() {
                 start();
             }
             else {
-                connection.query (`DELETE FROM role WHERE title = '${answer.name}'`, printResults );
+                connection.query (`DELETE FROM department WHERE name = '${answer.name}'`, printResults );
             }
         })
     })
@@ -144,7 +144,7 @@ function deleteRole() {
             start();
             }
             else {
-                connection.query (`DELETE FROM role WHERE last_name = '${answer.name}'`, printResults );
+                connection.query (`DELETE FROM role WHERE title = '${answer.name}'`, printResults );
             }
         })
     })
@@ -231,7 +231,7 @@ function addEmployee() {
                 type: "list",
                 name: "role_id",
                 message: "What is the role of this employee?",
-                choices:department
+                choices:role
             }
         ])
         connection.query (`insert into employee (first_name, last_name, role_id) values('$${employeeInfo.first_name}','${employeeInfo.last_name}','${employeeInfo.role_id}')`, printResults)
@@ -240,16 +240,16 @@ function addEmployee() {
 
 function updateEmployeeRole() {
     connection.query("SELECT * FROM employee", function (err, employee) {
-        connection.query ("SELECT * FROM role", async function (err, roles) {
+        connection.query ("SELECT * FROM role", async function (err, role) {
             const roleChoice = role.map ((role)=> ({
                 name:role.title,
                 value:role.id
             }))
-            const employeeChoice = employees.map ((employee) => ({
+            const employeeChoice = employee.map ((employee) => ({
                 name:employee.first_name + " " + employee.last_name,
-                value:role.id
+                value:employee.id
             }))
-            const updateEmployeeRole = await inquirer.prompt([
+            const updateEmployee = await inquirer.prompt([
                 {
                     type: "list",
                     name: "employee_id",
@@ -263,7 +263,7 @@ function updateEmployeeRole() {
                     choices:roleChoice
                 }
             ])
-            connection.query (`update employee set role_id=${updateEmployeeRole.role_id} where id=${updateEmployeeRole.employee_id}`, printResults)
+            connection.query (`update employee set role_id=${updateEmployee.role_id} where id=${updateEmployee.employee_id}`, printResults)
         })
     })
 }
