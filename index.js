@@ -1,6 +1,5 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-const { start } = require("repl");
 const connection = mysql.createConnection({
     host: "localhost",
     port: 8080,
