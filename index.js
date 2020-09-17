@@ -71,32 +71,30 @@ function backToStart() {
 function viewDepartment() {
     connection.query("SELECT * FROM department", function (err, results) {
         if (err) throw err;
+        console.table(results);
         backToStart();
     });
 }
 
 function viewRole() {
-    connection.query(
-        `select title, salary, name from role inner join department on role.department_id=department.id`,
-        function (err, results) {
-            if (err) throw err;
-            backToStart();
-        }
-    );
+    connection.query(`select title, salary, name from role inner join department on role.department_id=department.id`, function (err, results) {
+        if (err) throw err;
+        console.table(results);
+        backToStart();
+    });
 }
 
 function viewEmployee() {
-    connection.query(
-        `select first_name, last_name, title, salary, name from employee inner join role on employee.role_id=role.id inner join department on role.department_id=department.id`,
-        function (err, results) {
-            if (err) throw err;
-            backToStart();
-        }
-    );
+    connection.query(`select first_name, last_name, title, salary, name from employee inner join role on employee.role_id=role.id inner join department on role.department_id=department.id`, function (err, results) {
+        if (err) throw err;
+        console.table(results);
+        backToStart();
+    });
 }
 
 function printResults (err, result) {
     if (err) throw err;
+    console.log(result.affectedRows + " deleted.");
     backToStart();
 }
 
