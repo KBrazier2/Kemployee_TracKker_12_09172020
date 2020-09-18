@@ -20,7 +20,7 @@ function start() {
             type: "list",
             message:
             "Which of the following would you like to navigate to?",
-            choices: ["VIEW_DEPARTMENT", "VIEW_ROLE", "VIEW_EMPLOYEE", "ADD_DEPARTMENT", "ADD_ROLE", "ADD_EMPLOYEE", "UPDATE_EMPLOYEE_ROLE", "DELETE_DEPARTMENT", "DELETE_ROLE", "DELETE_EMPLOYEE", "EXIT"],
+            choices: ["VIEW_DEPARTMENT", "VIEW_ROLE", "VIEW_EMPLOYEE", "ADD_DEPARTMENT", "ADD_ROLE", "ADD_EMPLOYEE", "UPDATE_EMPLOYEE_ROLE", "DELETE_DEPARTMENT", "DELETE_EMPLOYEE", "EXIT"],
         })
         .then(function (answer) {
             if (answer.userInput === "VIEW_DEPARTMENT") {
@@ -39,8 +39,6 @@ function start() {
                 updateEmployeeRole();
             } else if (answer.userInput === "DELETE_DEPARTMENT") {
                 deleteDepartment();
-            } else if (answer.userInput === "DELETE_ROLE") {
-                deleteRole();
             } else if (answer.userInput === "DELETE_EMPLOYEE") {
                 deleteEmployee();
             } else {
@@ -119,32 +117,6 @@ function deleteDepartment() {
             }
             else {
                 connection.query (`DELETE FROM department WHERE name = '${answer.name}'`, printResults );
-            }
-        })
-    })
-};
-
-function deleteRole() {
-    connection.query("SELECT * FROM role", function (err, results) {
-        inquirer.prompt([
-            {
-                name: "name",
-                type: "list",
-                message: "Which of the following roles would you like to delete?",
-                choices: function() {
-                    var choiceArray = ["Go Back"];
-                    for (var i = 0; i < results.length; i++) {
-                        choiceArray.push(results[i].last_name);
-                    }
-                    return choiceArray;
-                }
-            }
-        ]).then(function(answer) {
-            if (answer.name === "Go Back") {
-            start();
-            }
-            else {
-                connection.query (`DELETE FROM role WHERE title = '${answer.name}'`, printResults );
             }
         })
     })

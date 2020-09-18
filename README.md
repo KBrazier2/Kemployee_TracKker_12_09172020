@@ -61,10 +61,9 @@ You may reach me at kylebrazier@gmail.com for further questions.
 
 ## Link
 
-
+https://youtu.be/UqUDyFImqdU
 
 ## Screenshots
-![screenshot1](./public/assets/2020-09-10.png)
-![screenshot2](./public/assets/2020-09-10_1.png)
-![screenshot3](./public/assets/2020-09-10_2.png)
-![gifshot1](./public/assets/Untitled_Sep_10_2020_9_53_AM.gif)
+![screenshot1](./2020-09-17.png)
+![screenshot2](./2020-09-17_(1).png)
+
